@@ -79,9 +79,9 @@ app.post("/newValue",function (req,res){
                                     else if(results[0].variable == newVar+1){
                                         res.json({
                                             success: 0,
-                                            message: (newVal+1)+ ' was added earlier'
+                                            message: (newVar+1)+ ' was added earlier'
                                         }) 
-                                        console.log((newVal+1)+ ' was added earlier');  
+                                        console.log((newVar+1)+ ' was added earlier');  
                                     }
                                     else {
                                         res.json({
