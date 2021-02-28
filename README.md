@@ -9,10 +9,4 @@ CREATE TABLE `used_vars` (
 
 configure db.js with your sql server params
 
-POST request example:
-
-Content-Type: application/json
-body:
-{
-    "newVal": "36"
-}
+API: https://www.postman.com/docking-module-astronomer-71571303/workspace/ach2publicworkspace/api/69a4cf00-ba68-46dc-94a3-b08c73038eb8?version=2e1f8e43-e137-4128-9a05-fd7d3ddb684b&tab=overview
