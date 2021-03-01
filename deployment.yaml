@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ach2-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ach2
+  template:
+    metadata:
+      labels:
+        app: ach2
+    spec:
+      containers:
+      - name: ach2
+        image: filinda/ach2
+        ports:
+        - containerPort: 3000
