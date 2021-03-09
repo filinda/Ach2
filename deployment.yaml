@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ach2-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ach2
@@ -15,5 +15,22 @@ spec:
       containers:
       - name: ach2
         image: filinda/ach2
+        env:
+        - name: mysqlbdport
+          value: "3306"
+        - name: mysqlbdip
+          value: "10.96.237.94"
+        - name: mysqlbdusr
+          value: "user1"
+        - name: mysqlbdpsw
+          value: "Qwer123!"
+        - name: mysqlbdschema
+          value: "ach2"
+        - name: mysqlbdconnectLimit
+          value: "10"
         ports:
         - containerPort: 3000
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "250m"

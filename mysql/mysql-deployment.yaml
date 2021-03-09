@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-service
 spec:
-  ports:
-  - port: 3306
   selector:
     app: mysql
-  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,7 +27,7 @@ spec:
     spec:
       containers:
       - image: mysql:8
-        name: mysql
+        name: mysqlcont
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: Qwer123!
@@ -36,7 +37,28 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+        - name: mysql-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "250m"
       volumes:
+      - name: mysql-initdb
+        configMap:
+         name: mysql-initdb-config
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql: |
+    CREATE USER 'user1' IDENTIFIED WITH mysql_native_password BY 'Qwer123!';
+    GRANT ALL PRIVILEGES ON * . * TO 'user1';
+    FLUSH PRIVILEGES;
+    CREATE SCHEMA ach2;
+    CREATE TABLE ach2.used_vars ( variable int NOT NULL );
